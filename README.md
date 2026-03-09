@@ -33,7 +33,6 @@ Short syntax: (a, b) => a + b
 this is inherited from surrounding scope
 
 Ans 05 :
-
 Template Literals
 Backticks `allow embedding variables  
 

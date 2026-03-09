@@ -25,7 +25,6 @@ function login(event) {
 
   if (username === "admin" && password === "admin123") {
     localStorage.setItem("isLoggedIn", "true");
-    localStorage.setItem("username", username);
     window.location.href = "dashboard.html";
   } else {
     alert("Invalid username or password");
@@ -38,12 +37,6 @@ function protectDashboard() {
   if (isLoggedIn !== "true") {
     window.location.href = "index.html";
   }
-}
-
-function logout() {
-  localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("username");
-  window.location.href = "index.html";
 }
 
 function showLoader(show) {
