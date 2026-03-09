@@ -8,15 +8,14 @@ let currentFilter = "all";
 const currentPage = window.location.pathname.split("/").pop();
 
 if (currentPage === "dashboard.html") {
-  protectDashboard();
-  loadIssues();
-}
+    protectDashboard();
+       loadIssues();   }
 
-function login(event) {
-  event.preventDefault();
+   function login(event) {
+       event.preventDefault();
 
-  const username = document.getElementById("username")?.value.trim();
-  const password = document.getElementById("password")?.value.trim();
+      const username = document.getElementById("username")?.value.trim();
+      const password = document.getElementById("password")?.value.trim();
 
   if (!username || !password) {
     alert("Enter username and password");
@@ -24,8 +23,8 @@ function login(event) {
   }
 
   if (username === "admin" && password === "admin123") {
-    localStorage.setItem("isLoggedIn", "true");
-    window.location.href = "dashboard.html";
+      localStorage.setItem("isLoggedIn", "true");
+     window.location.href = "dashboard.html";
   } else {
     alert("Invalid username or password");
   }
@@ -34,8 +33,8 @@ function login(event) {
 function protectDashboard() {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-  if (isLoggedIn !== "true") {
-    window.location.href = "index.html";
+       if (isLoggedIn !== "true") {
+           window.location.href = "index.html";
   }
 }
 
@@ -43,20 +42,21 @@ function showLoader(show) {
   const loader = document.getElementById("loader");
   if (!loader) return;
 
-  if (show) {
+     if (show) {
     loader.classList.remove("hidden");
-  } else {
+  }
+     else {
     loader.classList.add("hidden");
   }
 }
 
 function formatDate(dateString) {
-  if (!dateString) return "1/15/2024";
+     if (!dateString) return "1/15/2024";
 
   const date = new Date(dateString);
-  if (isNaN(date)) return dateString;
+      if (isNaN(date)) return dateString;
 
-  return date.toLocaleDateString("en-US");
+    return date.toLocaleDateString("en-US");
 }
 
 function setActiveTab(type) {
@@ -66,10 +66,11 @@ function setActiveTab(type) {
     const btn = document.getElementById(`tab-${tab}`);
     if (!btn) return;
 
-    if (tab === type) {
+      if (tab === type) {
       btn.classList.remove("bg-white", "text-slate-600");
       btn.classList.add("bg-indigo-600", "text-white");
-    } else {
+    } 
+      else {
       btn.classList.remove("bg-indigo-600", "text-white");
       btn.classList.add("bg-white", "text-slate-600");
     }
@@ -77,19 +78,20 @@ function setActiveTab(type) {
 }
 
 function updateCounts(displayData = issues) {
-  const open = issues.filter((issue) => issue.status === "open").length;
-  const closed = issues.filter((issue) => issue.status === "closed").length;
+        const open = issues.filter((issue) => issue.status === "open").length;
+        const closed = issues.filter((issue) => issue.status === "closed").length;
 
-  const visibleCount = document.getElementById("visibleCount");
-  const openCount = document.getElementById("openCount");
-  const closedCount = document.getElementById("closedCount");
+          const visibleCount = document.getElementById("visibleCount");
+          const openCount = document.getElementById("openCount");
+          const closedCount = document.getElementById("closedCount");
 
-  if (visibleCount) visibleCount.innerText = displayData.length;
-  if (openCount) openCount.innerText = open;
-  if (closedCount) closedCount.innerText = closed;
+      if (visibleCount) visibleCount.innerText = displayData.length;
+      if (openCount) openCount.innerText = open;
+      if (closedCount) closedCount.innerText = closed;
 }
 
 function getPriorityStyle(priority) {
+  
   const value = (priority || "LOW").toUpperCase();
 
   if (value === "HIGH") {
@@ -115,27 +117,27 @@ function getPriorityStyle(priority) {
 function getStatusMarkup(status) {
   if (status === "closed") {
     return `
-      <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-500 shrink-0">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <circle cx="12" cy="12" r="8" stroke-width="2"></circle>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
-        </svg>
-      </div>
+  <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-violet-500 shrink-0">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <circle cx="12" cy="12" r="8" stroke-width="2"></circle>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path>
+  </svg>
+  </div>
     `;
   }
 
   return `
     <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-500 shrink-0">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <circle cx="12" cy="12" r="8" stroke-width="2" stroke-dasharray="3 2"></circle>
+      <circle cx="12" cy="12" r="8" stroke-width="2" stroke-dasharray="3 2"></circle>
       </svg>
     </div>
   `;
 }
 
 function renderIssues(data) {
-  const container = document.getElementById("issuesContainer");
-  const emptyState = document.getElementById("emptyState");
+      const container = document.getElementById("issuesContainer");
+      const emptyState = document.getElementById("emptyState");
 
   if (!container) return;
 
@@ -149,13 +151,13 @@ function renderIssues(data) {
   emptyState.classList.add("hidden");
 
   data.forEach((issue) => {
-    const status = issue.status || "open";
-    const title = issue.title || "Untitled Issue";
-    const description = issue.description || "No description available.";
-    const author = issue.author || "john_doe";
-    const priority = getPriorityStyle(issue.priority);
-    const borderColor = status === "closed" ? "border-violet-500" : "border-emerald-500";
-    const statusIcon = getStatusMarkup(status);
+        const status = issue.status || "open";
+        const title = issue.title || "Untitled Issue";
+        const description = issue.description || "No description available.";
+        const author = issue.author || "john_doe";
+        const priority = getPriorityStyle(issue.priority);
+        const borderColor = status === "closed" ? "border-violet-500" : "border-emerald-500";
+        const statusIcon = getStatusMarkup(status);
 
     const card = document.createElement("div");
     card.className = `bg-white rounded-[14px] card-shadow border-t-[3px] ${borderColor} p-3.5 sm:p-4 cursor-pointer hover:-translate-y-1 hover:shadow-lg transition flex flex-col min-h-[210px]`;
@@ -199,8 +201,8 @@ function renderIssues(data) {
 }
 
 async function loadIssues() {
-  try {
-    showLoader(true);
+    try {
+       showLoader(true);
 
     const response = await fetch(API_ALL);
     const data = await response.json();
@@ -211,16 +213,19 @@ async function loadIssues() {
     setActiveTab("all");
     updateCounts(currentIssues);
     renderIssues(currentIssues);
-  } catch (error) {
-    const container = document.getElementById("issuesContainer");
-    if (container) {
+  } 
+     catch (error) {
+      const container = document.getElementById("issuesContainer");
+      if (container) {
       container.innerHTML = `
         <div class="col-span-full text-center bg-red-50 text-red-500 border border-red-200 rounded-2xl p-6">
           Failed to load issues.
         </div>
       `;
     }
-  } finally {
+  } 
+    
+    finally {
     showLoader(false);
   }
 }
@@ -270,12 +275,12 @@ function searchIssues() {
 
 async function openIssue(id) {
   try {
-    const response = await fetch(`${API_SINGLE}${id}`);
-    const data = await response.json();
-    const issue = data.data;
+        const response = await fetch(`${API_SINGLE}${id}`);
+        const data = await response.json();
+        const issue = data.data;
 
-    const modal = document.getElementById("modal");
-    const issueDetails = document.getElementById("issueDetails");
+        const modal = document.getElementById("modal");
+        const issueDetails = document.getElementById("issueDetails");
 
     if (!modal || !issueDetails) return;
 
@@ -319,15 +324,15 @@ async function openIssue(id) {
         <div class="border-2 border-sky-500 rounded-md p-5">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="border border-sky-400 border-dashed rounded p-4">
-              <p class="text-base text-slate-500 mb-2">Assignee:</p>
-              <p class="text-xl sm:text-2xl font-bold text-slate-800">
-                ${issue.author || "Fahim Ahmed"}
+                <p class="text-base text-slate-500 mb-2">Assignee:</p>
+                <p class="text-xl sm:text-2xl font-bold text-slate-800">
+                  ${issue.author || "Fahim Ahmed"}
               </p>
             </div>
 
             <div class="border border-sky-400 border-dashed rounded p-4">
-              <p class="text-base text-slate-500 mb-3">Priority:</p>
-              <span class="px-5 py-2 rounded-full text-sm font-semibold inline-block ${priority.className}">
+           <p class="text-base text-slate-500 mb-3">Priority:</p>
+          <span class="px-5 py-2 rounded-full text-sm font-semibold inline-block ${priority.className}">
                 ${priority.text}
               </span>
             </div>
@@ -353,11 +358,11 @@ async function openIssue(id) {
 }
 
 function closeModal() {
-  const modal = document.getElementById("modal");
-  if (!modal) return;
+      const modal = document.getElementById("modal");
+      if (!modal) return;
 
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
 }
 
 function openNewIssue() {
@@ -367,27 +372,27 @@ function openNewIssue() {
     return;
   }
 
-  const description = prompt("Enter issue description:") || "";
-  const author = prompt("Enter author name:") || "anonymous";
-  const statusInput = prompt("Enter state (open/closed):", "open") || "open";
-  const priorityInput = prompt("Enter priority (HIGH, MEDIUM, LOW):", "LOW") || "LOW";
+      const description = prompt("Enter issue description:") || "";
+      const author = prompt("Enter author name:") || "anonymous";
+      const statusInput = prompt("Enter state (open/closed):", "open") || "open";
+      const priorityInput = prompt("Enter priority (HIGH, MEDIUM, LOW):", "LOW") || "LOW";
 
-  const status = statusInput.toLowerCase() === "closed" ? "closed" : "open";
-  const priority = priorityInput.toUpperCase();
+      const status = statusInput.toLowerCase() === "closed" ? "closed" : "open";
+      const priority = priorityInput.toUpperCase();
 
-  const newIssue = {
-    id: issues.length ? Math.max(...issues.map((item) => item.id)) + 1 : 1,
-    title,
-    description,
-    author,
-    status,
-    priority,
-    created_at: new Date().toISOString()
-  };
+      const newIssue = {
+          id: issues.length ? Math.max(...issues.map((item) => item.id)) + 1 : 1,
+          title,
+          description,
+          author,
+          status,
+          priority,
+          created_at: new Date().toISOString()
+        };
 
-  issues.unshift(newIssue);
-  filterIssues(currentFilter);
-}
+          issues.unshift(newIssue);
+          filterIssues(currentFilter);
+        }
 
 const modal = document.getElementById("modal");
 if (modal) {
