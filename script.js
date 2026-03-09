@@ -5,8 +5,45 @@ let issues = [];
 let currentIssues = [];
 let currentFilter = "all";
 
-if (window.location.pathname.includes("dashboard")) {
+const currentPage = window.location.pathname.split("/").pop();
+
+if (currentPage === "dashboard.html") {
+  protectDashboard();
   loadIssues();
+}
+
+function login(event) {
+  event.preventDefault();
+
+  const username = document.getElementById("username")?.value.trim();
+  const password = document.getElementById("password")?.value.trim();
+
+  if (!username || !password) {
+    alert("Enter username and password");
+    return;
+  }
+
+  if (username === "admin" && password === "admin123") {
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("username", username);
+    window.location.href = "dashboard.html";
+  } else {
+    alert("Invalid username or password");
+  }
+}
+
+function protectDashboard() {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+  if (isLoggedIn !== "true") {
+    window.location.href = "index.html";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("username");
+  window.location.href = "index.html";
 }
 
 function showLoader(show) {
@@ -50,9 +87,13 @@ function updateCounts(displayData = issues) {
   const open = issues.filter((issue) => issue.status === "open").length;
   const closed = issues.filter((issue) => issue.status === "closed").length;
 
-  document.getElementById("visibleCount").innerText = displayData.length;
-  document.getElementById("openCount").innerText = open;
-  document.getElementById("closedCount").innerText = closed;
+  const visibleCount = document.getElementById("visibleCount");
+  const openCount = document.getElementById("openCount");
+  const closedCount = document.getElementById("closedCount");
+
+  if (visibleCount) visibleCount.innerText = displayData.length;
+  if (openCount) openCount.innerText = open;
+  if (closedCount) closedCount.innerText = closed;
 }
 
 function getPriorityStyle(priority) {

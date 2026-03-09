@@ -36,7 +36,6 @@
 </head>
 <body class="min-h-screen text-slate-800">
 
-  <!-- NAVBAR -->
   <nav class="bg-white border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4">
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -69,21 +68,28 @@
             />
           </div>
 
-          <button
-            onclick="openNewIssue()"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
-          >
-            + New Issue
-          </button>
+          <div class="flex gap-2">
+            <button
+              onclick="openNewIssue()"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
+            >
+              + New Issue
+            </button>
+
+            <button
+              onclick="logout()"
+              class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- MAIN -->
   <main class="max-w-4xl xl:max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
-    <!-- TABS -->
     <section class="bg-white rounded-2xl soft-shadow p-4 sm:p-5 mb-5">
       <div class="flex flex-wrap gap-3">
         <button
@@ -112,7 +118,6 @@
       </div>
     </section>
 
-    <!-- HEADER -->
     <section class="bg-white rounded-2xl soft-shadow overflow-hidden">
       <div class="p-4 sm:p-5 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         
@@ -147,12 +152,10 @@
         </div>
       </div>
 
-      <!-- LOADER -->
       <div id="loader" class="hidden py-14 flex items-center justify-center">
         <div class="spinner"></div>
       </div>
 
-      <!-- GRID -->
       <div
         id="issuesContainer"
         class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
@@ -164,7 +167,6 @@
     </section>
   </main>
 
-  <!-- MODAL -->
   <div
     id="modal"
     class="fixed inset-0 bg-black/35 hidden items-center justify-center p-4 z-50"
